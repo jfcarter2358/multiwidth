@@ -1,8 +1,12 @@
 [tool.poetry]
 name = "multiwidth"
-version = "1.0.0"
-description = ""
-authors = ["John Carter <john.carter@leapyear.io>"]
+version = "1.0.1"
+description = "A package for reading and writing mixed width tables"
+authors = ["John Carter <jfcarter2358@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/jfcarter2358/multiwidth"
+keywords = ["data", "table", "multiwidth"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
