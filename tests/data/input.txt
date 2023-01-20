@@ -1,0 +1,8 @@
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                      NAMES
+3c3c15c25c3e   frontend          "./start-frontend.sh"    10 seconds ago   Up 8 seconds    0.0.0.0:9000->9000/tcp     velocimodel_frontend_1
+c39392bb88cd   model-manager     "./start-model-manag…"   10 seconds ago   Up 7 seconds    127.0.0.1:9003->9003/tcp   velocimodel_model-manager_1
+ef3acf42bfa4   asset-manager     "./start-asset-manag…"   10 seconds ago   Up 7 seconds    127.0.0.1:9002->9002/tcp   velocimodel_asset-manager_1
+17b161dfa33d   auth-manager      "./start-auth-manage…"   10 seconds ago   Up 7 seconds    127.0.0.1:9005->9005/tcp   velocimodel_auth-manager_1
+79af01ae46a3   api-server        "./start-api-server.…"   11 seconds ago   Up 9 seconds    127.0.0.1:9004->9004/tcp   velocimodel_api-server_1
+00f3cc52f026   service-manager   "./start-service-man…"   11 seconds ago   Up 10 seconds   127.0.0.1:9001->9001/tcp   velocimodel_service-manager_1
+d187007ae065   ceresdb           "./ceresdb"              12 seconds ago   Up 11 seconds   127.0.0.1:7437->7437/tcp   velocimodel_ceresdb_1
