@@ -5,9 +5,20 @@
 from typing import List, Dict, Union
 import io
 
-def get_letter_locations(contents: str, padding: str = ' '):
-    lines = contents.split('\n')
-    
+
+def get_letter_locations(contents: str, padding: str = " ") -> List[int]:
+    """Gets the locations of starting letters of words in a string
+
+    Args:
+        contents (str): String to get starting letter locations from
+        padding (str, optional): Padding between columns. Defaults to " ".
+
+    Returns:
+        List[int]: Indices in the string of starting letters of words
+    """
+
+    lines = contents.split("\n")
+
     # Remove empty lines
     lines = [line for line in lines if len(line) > 0]
 
@@ -37,12 +48,15 @@ def get_letter_locations(contents: str, padding: str = ' '):
 
     # We then loop through all the lines and only keep those that are in common
     for letter_location in letter_locations[1:]:
-        global_letter_locations = set(global_letter_locations).intersection(letter_location)
+        global_letter_locations = set(global_letter_locations).intersection(
+            letter_location
+        )
 
     global_letter_locations = sorted(list(set(global_letter_locations)))
-    global_letter_locations.append(max_length+1)
+    global_letter_locations.append(max_length + 1)
 
     return global_letter_locations
+
 
 def split(line: str) -> List[str]:
     """Splits a line of text into a list of characters.
@@ -76,7 +90,7 @@ def process_line(line: str, widths: List[int]) -> List[str]:
     # Loop through each cell's widths
     for width in widths:
         # grab all the characters from the cell
-        data_buffer = line[char_idx:char_idx+width]
+        data_buffer = line[char_idx : char_idx + width]
         char_idx += width
         # Remove trailing whitespace
         output.append(data_buffer.strip())
@@ -86,7 +100,7 @@ def process_line(line: str, widths: List[int]) -> List[str]:
 
 def loads(
     contents: str, padding: str = " ", header: bool = True, output_json: bool = False
-) -> Union[List[List],List[Dict]]:
+) -> Union[List[List], List[Dict]]:
     """Takes a string of a fixed-width file and breaks it apart into the data contained.
 
     Args:
@@ -124,7 +138,10 @@ def loads(
     # Because sometimes the headers have spaces in them
     # And that will cause parsing to be weird
     word_locations = get_letter_locations(contents, padding=padding)
-    widths = [word_locations[i+1]-word_locations[i] for i in range(0, len(word_locations)-1)]
+    widths = [
+        word_locations[i + 1] - word_locations[i]
+        for i in range(0, len(word_locations) - 1)
+    ]
 
     if header:
         # Grab the headers if applicable
@@ -162,7 +179,7 @@ def load(
     padding: str = " ",
     header: bool = True,
     output_json: bool = False,
-) -> Union[List[List],List[Dict]]:
+) -> Union[List[List], List[Dict]]:
     """Parse data from a file object
 
     Args:
@@ -187,7 +204,13 @@ def load(
 
     return output
 
-def dumps(data: Union[List[List],List[Dict]], headers: List[str] = None, padding: str = ' ', cell_suffix: str = ' ') -> str:
+
+def dumps(
+    data: Union[List[List], List[Dict]],
+    headers: List[str] = None,
+    padding: str = " ",
+    cell_suffix: str = " ",
+) -> str:
     """Dumps a formatted table to a string
 
     Args:
@@ -226,42 +249,49 @@ def dumps(data: Union[List[List],List[Dict]], headers: List[str] = None, padding
                 if len(element) > widths[idx]:
                     widths[idx] = len(element)
 
-    output = ''
+    output = ""
     if is_dict:
         if headers:
-            out_string = ''
+            out_string = ""
             for idx, val in enumerate(headers):
                 width = widths[idx]
                 delta = width - len(val)
                 out_string += val + (delta * padding) + cell_suffix
-            output += out_string.strip() + '\n'
+            output += out_string.strip() + "\n"
         for datum in data:
-            out_string = ''
+            out_string = ""
             for idx, val in enumerate(headers):
                 datum_val = datum[val]
                 width = widths[idx]
                 delta = width - len(datum_val)
                 out_string += datum_val + (delta * padding) + cell_suffix
-            output += out_string.strip() + '\n'
+            output += out_string.strip() + "\n"
     else:
         if headers:
-            out_string = ''
+            out_string = ""
             for idx, val in enumerate(headers):
                 width = widths[idx]
                 delta = width - len(val)
                 out_string += val + (delta * padding) + cell_suffix
-            output += out_string.strip() + '\n'
+            output += out_string.strip() + "\n"
         for datum in data:
-            out_string = ''
+            out_string = ""
             for idx, datum_val in enumerate(datum):
                 width = widths[idx]
                 delta = width - len(datum_val)
                 out_string += datum_val + (delta * padding) + cell_suffix
-            output += out_string.strip() + '\n'
+            output += out_string.strip() + "\n"
 
     return output
 
-def dump(data: Union[List[List],List[Dict]], file_object: io.TextIOWrapper, headers: List[str] = None, padding: str = ' ', cell_suffix: str = ' '):
+
+def dump(
+    data: Union[List[List], List[Dict]],
+    file_object: io.TextIOWrapper,
+    headers: List[str] = None,
+    padding: str = " ",
+    cell_suffix: str = " ",
+):
     """Dumps a formatted table to a file
 
     Args:

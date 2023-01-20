@@ -7,7 +7,7 @@ import os
 from multiwidth.multiwidth import get_letter_locations
 
 def test_version():
-    assert __version__ == '0.1.3'
+    assert __version__ == '1.0.0'
 
 def test_split():
     in_data = 'Hello world'
